@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heating Guide — Mensie's Jerk House</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1a5c2e;
+    --gold: #c8860a;
+    --red: #b91c1c;
+    --cream: #fdf8f0;
+    --dark: #1a1a1a;
+    --muted: #6b6560;
+    --border: rgba(0,0,0,0.1);
+    --radius: 14px;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+  header {
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    padding: 2rem 1rem 1.5rem;
+  }
+  .flag-stripe {
+    display: flex;
+    height: 4px;
+    margin-bottom: 1rem;
+  }
+  .flag-stripe span { flex: 1; }
+  .flag-stripe .s1 { background: #000; }
+  .flag-stripe .s2 { background: #c8860a; }
+  .flag-stripe .s3 { background: #007749; }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  header p {
+    font-size: 13px;
+    opacity: 0.75;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .tabs-wrap {
+    background: var(--green);
+    padding: 0 1rem 1rem;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: #fff;
+    color: var(--green);
+    border-color: #fff;
+  }
+  .content { padding: 1.25rem 1rem 2rem; max-width: 520px; margin: 0 auto; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.3px;
+  }
+  .badge-cooked { background: #dcfce7; color: #166534; }
+  .badge-bacon { background: #fef3c7; color: #92400e; }
+  .product-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .product-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+  .method {
+    border-top: 1px solid var(--border);
+    padding: 1rem 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .method-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #f0ede6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--green);
+  }
+  .method-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 5px;
+  }
+  .method-steps {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .tip-box {
+    margin-top: 1rem;
+    background: #fff8e6;
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 0.875rem 1rem;
+    font-size: 13px;
+    color: #78500a;
+    line-height: 1.6;
+  }
+  .tip-box strong { color: var(--gold); }
+  footer {
+    text-align: center;
+    padding: 1.5rem 1rem 2rem;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  footer strong { color: var(--green); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag-stripe"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+  <h1>Mensie's Jerk House</h1>
+  <p>Heating &amp; Serving Guide</p>
+</header>
+
+<div class="tabs-wrap" id="tabs"></div>
+
+<div class="content" id="content"></div>
+
+<footer>
+  <strong>Mensie's Jerk House</strong><br>
+  San Fernando, La Union, Philippines<br><br>
+  Questions? Message us on Facebook or Instagram.
+</footer>
+
+<script>
+const products = [
+  {
+    name: "Jerk Chicken",
+    badge: "cooked",
+    note: "Fully smoked & cooked — vacuum sealed. Just warm it up. No need to cook it again.",
+    tip: "The hot water bath is the gentlest method — keeps everything juicy and tender.",
+    methods: [
+      { icon: "💧", label: "Hot water bath (best)", steps: "1. Keep bag sealed — don't open it yet.\n2. Place sealed bag in a bowl or pot.\n3. Pour hot (not boiling) water over it.\n4. Let sit 12–15 min, replacing water once halfway.\n5. Open, plate up, and eat!" },
+      { icon: "📡", label: "Microwave", steps: "1. Open bag, place pieces on a microwave-safe plate.\n2. Cover loosely with a damp paper towel.\n3. Heat on HIGH 2 min. Flip pieces.\n4. Heat 1–2 more min until hot throughout.\n5. Rest 1 min before eating." },
+      { icon: "🔥", label: "Oven / Turbo broiler", steps: "1. Preheat to 160°C (320°F) — low heat.\n2. Place chicken on a tray, cover tightly with foil.\n3. Warm 15 min. Check center is hot.\n4. Optional: uncover last 3–4 min for crispier skin." }
+    ]
+  },
+  {
+    name: "Rib Tips",
+    badge: "cooked",
+    note: "Fully smoked & cooked — vacuum sealed, saucy burnt-end style. Just warm it up.",
+    tip: "These go great over rice! Don't let the sauce dry out — keep it covered while warming.",
+    methods: [
+      { icon: "💧", label: "Hot water bath (best)", steps: "1. Keep bag sealed.\n2. Place in a bowl of hot (not boiling) water.\n3. Let sit 12–15 min. Gently squeeze bag halfway to mix sauce.\n4. Open and serve — sauce and all." },
+      { icon: "📡", label: "Microwave", steps: "1. Pour into a microwave-safe bowl. Cover with a plate.\n2. Heat on HIGH 2 min. Stir.\n3. Heat 1 more min. Stir again.\n4. Rest 1 min. Serve hot." },
+      { icon: "🔥", label: "Oven / Turbo broiler", steps: "1. Preheat to 160°C (320°F).\n2. Pour into oven-safe dish, cover tightly with foil.\n3. Warm 20 min, stirring once halfway.\n4. Serve hot over rice or with bread." }
+    ]
+  },
+  {
+    name: "Beef Bacon",
+    badge: "bacon",
+    note: "16-hour smoked beef — almost fully cooked. Thin strips. You're finishing it, not cooking it from scratch.",
+    tip: "Medium heat only. High heat burns the edges before the center warms up. Watch it like regular bacon — it goes from perfect to overdone fast.",
+    methods: [
+      { icon: "🍳", label: "Pan fry — light finish (best)", steps: "1. Dry pan, no oil needed — beef releases its own fat.\n2. Heat pan on MEDIUM for 1 min.\n3. Lay strips flat. Don't overlap.\n4. Cook 1.5–2 min per side — light golden sear only.\n5. Remove when edges start to curl and brown.\n6. Rest on paper towel 30 sec. Serve immediately.\n\nGoal: warm, slightly crisp edges, juicy center." },
+      { icon: "📡", label: "Microwave", steps: "1. Lay strips flat on a plate — don't stack.\n2. Cover with a paper towel.\n3. Heat on HIGH 1 min.\n4. Add 20–30 sec if needed. Don't overcook — they'll go rubbery.\n5. Serve right away." },
+      { icon: "🔥", label: "Oven / Turbo broiler", steps: "1. Preheat to 190°C (375°F).\n2. Lay on rack or lined tray — single layer.\n3. Bake 6–8 min, flipping halfway.\n4. Pull out just as edges start to crisp — they'll finish as they rest." },
+      { icon: "💧", label: "Thawing from frozen first?", steps: "1. Keep bag sealed, place in warm water 10–12 min to thaw.\n2. Pat strips dry with paper towel before cooking.\n3. Then use the pan fry method above." }
+    ]
+  },
+  {
+    name: "Jerk Liempo",
+    badge: "cooked",
+    note: "Fully smoked pork belly strips — 300g vacuum sealed. Just warm it up.",
+    tip: "Hot water bath keeps the fat soft and juicy. For a little char on the outside, give it 1–2 min in a hot pan after warming.",
+    methods: [
+      { icon: "💧", label: "Hot water bath (best)", steps: "1. Keep bag sealed.\n2. Submerge in hot (not boiling) water.\n3. Let sit 12–15 min. Replace water once halfway.\n4. Open, slice if desired, and serve." },
+      { icon: "📡", label: "Microwave", steps: "1. Place strips on a plate, cover with damp paper towel.\n2. Heat on HIGH 2 min. Flip.\n3. Heat 1 more min.\n4. Rest 1 min. Slice and serve." },
+      { icon: "🔥", label: "Oven / Turbo broiler", steps: "1. Preheat to 160°C (320°F).\n2. Place strips on tray, cover with foil.\n3. Warm 15 min.\n4. Optional: uncover, raise to 200°C for 3–4 min for caramelized edges." }
+    ]
+  },
+  {
+    name: "Laing",
+    badge: "cooked",
+    note: "Fully cooked taro leaves in coconut cream — vacuum sealed. Warm gently. Never boil it.",
+    tip: null,
+    methods: [
+      { icon: "💧", label: "Hot water bath (best)", steps: "1. Keep bag sealed.\n2. Place in hot (not boiling) water.\n3. Let sit 15 min, gently squeezing bag halfway.\n4. Open and pour over rice. Ready!" },
+      { icon: "📡", label: "Microwave", steps: "1. Pour into a microwave-safe bowl. Cover with a plate.\n2. Heat on MEDIUM power (50–70%) — not high.\n3. Heat 2 min. Stir well.\n4. Heat 1 more min on MEDIUM. Stir and serve." },
+      { icon: "🔥", label: "Oven / Turbo broiler", steps: "1. Preheat to 150°C (300°F) — low heat only.\n2. Pour into oven-safe dish, cover tightly with foil.\n3. Warm 20–25 min. Stir gently once halfway.\n4. Serve over rice." }
+    ]
+  }
+];
+
+let active = 0;
+
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = products.map((p, i) =>
+    `<button class="tab ${i === active ? 'active' : ''}" onclick="setTab(${i})">${p.name}</button>`
+  ).join('');
+}
+
+function renderContent() {
+  const p = products[active];
+  const badge = p.badge === 'bacon'
+    ? `<div class="badge badge-bacon">⏱ 16-hr smoked — finish to serve</div>`
+    : `<div class="badge badge-cooked">✓ Already fully cooked — warm up only</div>`;
+  const tip = p.tip ? `<div class="tip-box"><strong>Tip:</strong> ${p.tip}</div>` : '';
+  const methods = p.methods.map(m => `
+    <div class="method">
+      <div class="method-icon">${m.icon}</div>
+      <div>
+        <div class="method-name">${m.label}</div>
+        <div class="method-steps">${m.steps.replace(/\n/g,'<br>')}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('content').innerHTML = `${badge}<div class="product-title">${p.name}</div><div class="product-note">${p.note}</div>${methods}${tip}`;
+}
+
+function setTab(i) { active = i; renderTabs(); renderContent(); }
+renderTabs(); renderContent();
+</script>
+</body>
+</html>
